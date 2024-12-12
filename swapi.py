@@ -6,16 +6,16 @@ class APIRequester:
     def __init__(self, base_url):
         self.base_url = base_url
 
-    def get(self):
+    def get(self, endpoint=''):
         try:
-            response = requests.get(self.base_url)
+            response = requests.get(self.base_url + endpoint)
             response.raise_for_status()
             return response
         except requests.RequestException:
             pass
 
 
-class SWRequester:
+class SWRequester(APIRequester):
     def __init__(self):
         super().__init__('https://swapi.dev/api/')
 
@@ -27,10 +27,7 @@ class SWRequester:
 
 
 def get_sw_info(self, sw_type):
-    category_url = f'{self.base_url}{sw_type}/'
-    response = requests.get(category_url)
-    response.raise_for_status()
-    return response.text
+    return self.get(sw_type)
 
 
 def save_sw_data():
